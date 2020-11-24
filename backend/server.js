@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const AuthRoute = require('./routes/auth')
+const UserRoute = require('./routes/user')
 
 //Connect to MongoDB
 mongoose.connect('mongodb://mongodb.local:27017/practitioner',{
@@ -33,3 +34,4 @@ app.listen(PORT, () => {
 })
 
 app.use('/api',AuthRoute)
+app.use('/index',UserRoute)

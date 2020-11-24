@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const validator = require('validator');
 
-
 const userSchema = new Schema({
     name:{
         type:String,
@@ -35,7 +34,7 @@ const userSchema = new Schema({
         required:true
     },
     dateOfBirth:{
-        type:Date,
+        type:Date
     },
     dateOfRegistry:{
         type:Date

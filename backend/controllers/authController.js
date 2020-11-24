@@ -1,4 +1,5 @@
 const User = require ('../models/User')
+const Wallet = require ('../models/Wallet')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -24,15 +25,25 @@ const register = (req, res, next) => {
             dateOfRegistry:Date.now(),
             lastUpdate:Date.now()
         })
+
         user.save()
+        .catch(error => {}) 
+
+        let wallet = new Wallet({
+            walletId:req.body.dni,
+            lastUpdate:Date.now()
+        })
+        wallet.save()
         .then(user => {
             res.json({
-                message:'User added succesfully!'
+                message0:'User added succesfully!',
+                message1:'Wallet created succesfully!'
             })
         })
         .catch(error => {
+            res.status(404)
             res.json({
-                message:error
+                message:'dni and email values must be unique'
             })
         })
 
