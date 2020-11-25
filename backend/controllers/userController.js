@@ -1,6 +1,58 @@
 const User = require ('../models/User')
 const Wallet = require ('../models/Wallet')
-const Account = require ('../models/Account')
+const bcrypt = require('bcryptjs')
+
+const register = (req, res, next) => {
+
+    bcrypt.hash(req.body.password, 10, function(err,hashedPass) {
+        
+        if(err) {
+            res.json({
+                error:err
+            })
+        }
+    
+        let user = new User ({
+            name:req.body.name,
+            lastName:req.body.lastName,
+            age:req.body.age,
+            dni:req.body.dni,
+            email:req.body.email,
+            password:hashedPass,
+            dateOfBirth:req.body.date,
+            dateOfRegistry:Date.now(),
+            lastUpdate:Date.now()
+        })
+
+        user.save()
+        .catch(error => {
+            res.status(404)
+            res.json({
+                message:'dni and email values must be unique'
+            })
+        }) 
+
+        let wallet = new Wallet({
+            walletId:req.body.dni,
+            lastUpdate:Date.now()
+        })
+        wallet.save()
+        .then(user => {
+            res.json({
+                message0:'User added succesfully!',
+                message1:'Wallet created succesfully!'
+            })
+        })
+        .catch(error => {
+            res.status(404)
+            res.json({
+                message:'dni and email values must be unique'
+            })
+        })
+
+    })
+}
+
 
 const getUserInformation = (req, res) => {
 
@@ -31,66 +83,5 @@ const getUserInformation = (req, res) => {
 
 }
 
-const getUserWallet = (req , res) => {
-    
-    Wallet.findOne({"walletId":req.body.dni}, function(err,wallet) {
-        if(err){
-            res.json({
-                error:err
-            })
-        }else{
-            wallet.walletId=""
-            res.json({
-                wallet
-            })
-                
-        }
-    })
-}
-
-const getUserWalletAccounts = (req,res) => {
-    
-    Wallet.findOne({"walletId":req.body.dni}, function(err,wallet) {
-        if(err){
-            res.json({
-                error:err
-            })
-        }else{
-            var cadena = wallet.accounts
-            res.json({
-                cadena
-            })               
-        }
-    })
-}
-
-const addAccount = (req,res) => {
-    
-    Wallet.findOne({"walletId":req.body.dni},(err,wallet) => {
-        if(err){
-            res.json({
-                error:err
-            })
-        }else{
-            let account = new Account ({
-                accountType:req.body.accountType,
-                balance:0,
-                owner:req.body.dni
-            })
-            account.save()
-            wallet.account.push(account._id)
-            wallet.save()
-            
-            res.json({
-                wallet
-            })
-                
-        }
-    })
-
-}
-
 module.exports={getUserInformation,
-    getUserWallet,
-    getUserWalletAccounts,
-    addAccount}
+register}

@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const AuthRoute = require('./routes/auth')
 const UserRoute = require('./routes/user')
+const WalletRoute = require('./routes/wallet')
+const AccountRoute = require('./routes/account')
 
 //Connect to MongoDB
 mongoose.connect('mongodb://mongodb.local:27017/practitioner',{
@@ -36,3 +38,5 @@ app.listen(PORT, () => {
 
 app.use('/auth',AuthRoute)
 app.use('/user',UserRoute)
+app.use('/user/wallet',WalletRoute)
+app.use('/user/wallet/account',AccountRoute)

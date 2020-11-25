@@ -4,56 +4,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 
-const register = (req, res, next) => {
-
-    bcrypt.hash(req.body.password, 10, function(err,hashedPass) {
-        
-        if(err) {
-            res.json({
-                error:err
-            })
-        }
-    
-        let user = new User ({
-            name:req.body.name,
-            lastName:req.body.lastName,
-            age:req.body.age,
-            dni:req.body.dni,
-            email:req.body.email,
-            password:hashedPass,
-            dateOfBirth:req.body.date,
-            dateOfRegistry:Date.now(),
-            lastUpdate:Date.now()
-        })
-
-        user.save()
-        .catch(error => {
-            res.status(404)
-            res.json({
-                message:'dni and email values must be unique'
-            })
-        }) 
-
-        let wallet = new Wallet({
-            walletId:req.body.dni,
-            lastUpdate:Date.now()
-        })
-        wallet.save()
-        .then(user => {
-            res.json({
-                message0:'User added succesfully!',
-                message1:'Wallet created succesfully!'
-            })
-        })
-        .catch(error => {
-            res.status(404)
-            res.json({
-                message:'dni and email values must be unique'
-            })
-        })
-
-    })
-}
 
 const login = (req, res, next) => {
 
@@ -89,7 +39,4 @@ const login = (req, res, next) => {
     })
 }
 
-module.exports={
-    register,
-    login
-}
+module.exports={login}
