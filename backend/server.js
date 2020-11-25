@@ -6,9 +6,11 @@ const AuthRoute = require('./routes/auth')
 const UserRoute = require('./routes/user')
 const WalletRoute = require('./routes/wallet')
 const AccountRoute = require('./routes/account')
+const config = require('./config/db')
+
 
 //Connect to MongoDB
-mongoose.connect('mongodb://mongodb.local:27017/practitioner',{
+mongoose.connect(config.MongoDBURL,{
     useNewUrlParser:true,
     useUnifiedTopology:true,
     useCreateIndex: true
@@ -29,10 +31,8 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 
-const PORT = process.env.PORT || 3000
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
+app.listen(config.port, () => {
+    console.log(`Server is running on port ${config.port}`)
 })
 
 app.use('/auth',AuthRoute)

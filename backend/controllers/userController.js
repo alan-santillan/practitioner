@@ -1,4 +1,3 @@
-const { model } = require('../models/User')
 const userService = require ('../services/userService')
 
 

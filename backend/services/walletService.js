@@ -1,11 +1,14 @@
 const Wallet = require ('../models/Wallet')
 const Account = require('../models/Account')
-
+const jwt = require('jsonwebtoken')
 
 
 const getUserWalletAccounts = (req,res) => {
+
+    const token = req.headers.authorization
+    const decode = jwt.verify(token,'yhU)kg(AEv')
     
-    Wallet.findOne({"walletId":req.body.dni}, function(err,wallet) {
+    Wallet.findOne({"walletId":decode.dni}, function(err,wallet) {
         if(err){
             res.json({
                 error:err

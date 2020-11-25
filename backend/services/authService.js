@@ -1,5 +1,6 @@
 const User = require ('../models/User')
 const Wallet = require ('../models/Wallet')
+const secret = require ('../config/secret')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -20,7 +21,7 @@ const login = (req, res, next) => {
                     })
                 }
                 if(result){
-                    let token = jwt.sign({name:user.name},'yhU)kg(AEv',{expiresIn:'1h'})
+                    let token = jwt.sign({dni:user.dni},secret.secret,{expiresIn:'1h'})
                     res.json({
                         message:'Login Successful',
                         token

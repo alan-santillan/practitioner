@@ -9,9 +9,7 @@ const accountSchema = new Schema({
     balance:{
         type:Number
     },
-    owner:{
-        type:String
-    },
+    owner:[String],
     transaction:[String]
 })
 
