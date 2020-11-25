@@ -8,7 +8,8 @@ const UserRoute = require('./routes/user')
 //Connect to MongoDB
 mongoose.connect('mongodb://mongodb.local:27017/practitioner',{
     useNewUrlParser:true,
-    useUnifiedTopology:true
+    useUnifiedTopology:true,
+    useCreateIndex: true
 })
 
 const db = mongoose.connection
@@ -33,5 +34,5 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
 
-app.use('/api',AuthRoute)
-app.use('/index',UserRoute)
+app.use('/auth',AuthRoute)
+app.use('/user',UserRoute)

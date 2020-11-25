@@ -27,7 +27,12 @@ const register = (req, res, next) => {
         })
 
         user.save()
-        .catch(error => {}) 
+        .catch(error => {
+            res.status(404)
+            res.json({
+                message:'dni and email values must be unique'
+            })
+        }) 
 
         let wallet = new Wallet({
             walletId:req.body.dni,
@@ -65,7 +70,7 @@ const login = (req, res, next) => {
                     })
                 }
                 if(result){
-                    let token = jwt.sign({name:user.name},'yhU)kg(AEv',{expiresIn:900000})
+                    let token = jwt.sign({name:user.name},'yhU)kg(AEv',{expiresIn:'1h'})
                     res.json({
                         message:'Login Successful',
                         token

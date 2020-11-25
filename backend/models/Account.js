@@ -12,7 +12,7 @@ const accountSchema = new Schema({
     owner:{
         type:String
     },
-    transactions:[String]
+    transaction:[String]
 })
 
 const Account = mongoose.model('Account',accountSchema)
